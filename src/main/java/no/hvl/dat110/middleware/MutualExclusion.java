@@ -112,6 +112,7 @@ public class MutualExclusion {
 		if(message.getNodeName().equals(node.getNodeName())) {
 			message.setAcknowledged(true);
 			onMutexAcknowledgementReceived(message);
+			return;
 		}
 
 		int caseid = -1;
@@ -126,9 +127,11 @@ public class MutualExclusion {
 			caseid = 1;
 			// caseid=2: Receiver wants to access resource but is yet to - compare own message clock to received message's clock
 		else caseid = 2;
+
 		// check for decision
 		doDecisionAlgorithm(message, mutexqueue, caseid);
 	}
+
 
 	public void doDecisionAlgorithm(Message message, List<Message> queue, int condition) throws RemoteException {
 

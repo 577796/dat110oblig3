@@ -117,6 +117,7 @@ public class FileManager {
 		return counter;
 	}
 
+
 	/**
 	 * @param filename
 	 * @return list of active nodes having the replicas of this file
