@@ -195,7 +195,6 @@ public class Node extends UnicastRemoteObject implements NodeInterface {
 	
 	@Override
 	public void acquireLock() throws RemoteException {
-		
 		mutex.acquireLock();
 	}
 

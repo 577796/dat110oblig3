@@ -92,15 +92,15 @@ public class MutualExclusion {
 		logger.info("Number of peers to vote = "+activenodes.size());
 
 		// iterate over the activenodes
-		for (int i = 0; i < activenodes.size(); i++) {
+        for (Message activenode : activenodes) {
 
 
-			// obtain a stub for each node from the registry
-			NodeInterface stub = 	Util.getProcessStub(activenodes.get(i).getNodeName(),activenodes.get(i).getPort());
-			// call onMutexRequestReceived()
-			if (stub != null)
-				stub.onMutexRequestReceived(message);
-		}
+            // obtain a stub for each node from the registry
+            NodeInterface stub = Util.getProcessStub(activenode.getNodeName(), activenode.getPort());
+            // call onMutexRequestReceived()
+            if (stub != null)
+                stub.onMutexRequestReceived(message);
+        }
 
 	}
 
@@ -149,7 +149,8 @@ public class MutualExclusion {
 				// acknowledge message
 				message.setAcknowledged(true);
 				// send acknowledgement back by calling onMutexAcknowledgementReceived()
-				stub.onMutexAcknowledgementReceived(message);
+                assert stub != null;
+                stub.onMutexAcknowledgementReceived(message);
 				break;
 			}
 
@@ -187,11 +188,6 @@ public class MutualExclusion {
 					queue.add(message);
 
 
-
-				// if sender wins, acknowledge the message, obtain a stub and call onMutexAcknowledgementReceived()
-
-				// if sender looses, queue it
-
 				break;
 			}
 
@@ -218,7 +214,8 @@ public class MutualExclusion {
 			NodeInterface stub = Util.getProcessStub(activenode.getNodeName(),activenode.getPort());
 			// call releaseLocks()
 			try {
-				stub.releaseLocks();
+                assert stub != null;
+                stub.releaseLocks();
 			} catch (RemoteException e) {
 				throw new RuntimeException(e);
 			}
