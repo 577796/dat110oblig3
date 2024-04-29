@@ -45,8 +45,11 @@ public class Node extends UnicastRemoteObject implements NodeInterface {
 	
 	public Node(String nodename, int port) throws RemoteException {
 		super();
+		if (nodename == null) {
+			throw new IllegalArgumentException("nodename cannot be null");
+		}// use a different name as "IP" for single machine simulation
 		this.port = port;
-		this.nodename = nodename;									// use a different name as "IP" for single machine simulation
+		this.nodename = nodename;
 		nodeID = Hash.hashOf(nodename);								// use the MD5  from Hash class
 		
 		keys = new HashSet<BigInteger>();
